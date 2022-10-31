@@ -1,11 +1,20 @@
 body {
-    padding: 0;
-    margin: 0;
-    background: url('../../public/bgimage.png') no-repeat center center fixed;
+    background-image: url('bgimage.png');
     background-size: cover;
-    color: black;
-    overflow: scroll; 
-    font-family: 'DM Mono', monospace;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Inter, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: inherit;
 }
 
 /* .card-list {
@@ -18,30 +27,31 @@ body {
     transition: .2s;
 } */
 
-.card-list{
+.card-list {
     float: right;
 }
 
-.card-name{
+.card-name {
     font-size: 30px;
 }
 
-.card{
+.card {
     border-radius: 20px;
     background: whitesmoke;
     margin: 30px;
     box-shadow: 2px 2px 10px black;
     opacity: 0.8;
     width: 400px;
+    padding: 20px;
 }
 
-.card:hover{
+.card:hover {
     background-color: darkgray;
     transition: 0.7s;
     cursor: pointer;
 }
 
-.button{
+.button {
     border-radius: 10px;
     font-family: Arial, Helvetica, sans-serif;
     background-color: whitesmoke;
@@ -49,7 +59,7 @@ body {
     opacity: 0.8;
     font-size: 20px;
     margin: 10px;
-    padding: 5px
+    padding: 5px;
 }
 
 .search-bar {
@@ -62,10 +72,10 @@ body {
     padding-left: 10px;
 }
 
-.select{
+.select {
     border-radius: 10px;
     font-family: Arial, Helvetica, sans-serif;
-    background-color:whitesmoke;
+    background-color: whitesmoke;
     border: 0px;
     opacity: 0.8;
     font-size: 20px;
@@ -73,13 +83,13 @@ body {
     padding: 5px;
 }
 
-.player-data{
+.player-data {
     float: right;
     margin-right: 9%;
     width: 30%;
 }
 
-.card-2{
+.card-2 {
     border-radius: 20px;
     background: whitesmoke;
     margin: 30px;
@@ -89,19 +99,19 @@ body {
     width: 100%;
 }
 
-.button:hover{
+.button:hover {
     background-color: darkgray;
     transition: 0.7s;
     cursor: pointer;
 }
 
-.select:hover{
+.select:hover {
     background-color: darkgray;
     transition: 0.7s;
     cursor: pointer;
 }
 
-.form-home{
+.form-home {
     padding-left: 50px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -114,31 +124,38 @@ body {
     transition: 1s;
 }
 
-.input-box{
+.input-box {
     margin: 10px;
 }
 
 .header-bar {
     cursor: pointer;
-    margin: 20px;
+    margin: 0px;
+    display: block;
 }
 
-.brand{
+.brand {
     font-style: italic;
     font-weight: bold;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: inline;
 }
 
-.logo{
-    margin-bottom: 5px;
+.logo {
     margin-right: 7px;
 }
 
-.error{
+.error {
     color: red;
     transition: 0.5s;
     font-family: Arial, Helvetica, sans-serif;
     width: 100%;
     font-size: 14px;
+}
 
+h3.brand::before {
+    content: url('logo.png');
+    vertical-align: -50%;
+    margin-right: 10px;
 }

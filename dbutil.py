@@ -1,4 +1,3 @@
-
 import pandas as pd
 from sqlalchemy import create_engine
 
@@ -14,9 +13,7 @@ db.team = db.team.str.rstrip()
 print(db.head())
 print("\n\n")
 
-engine = create_engine('postgresql://soundarzozm:chittorababy@localhost:5432/fifa21')
+engine = create_engine('postgresql://sm185711:soundarzozm@localhost:5432/fifa21')
 db.to_sql('data', engine)
 
 print("Done adding the csv to the psql database.")
-
-

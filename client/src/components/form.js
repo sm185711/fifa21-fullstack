@@ -16,8 +16,7 @@ const PlayerForm = (props) => {
             hits: props.exist ? props.playerData.hits : '',
             potential: props.exist ? props.playerData.potential : '',
             team: props.exist ? props.playerData.team : '',
-
-            positions: props.exist ? props.playerData.positions : '',
+            position: props.exist ? props.playerData.position : '',
         },
 
         validationSchema: Yup.object({
@@ -37,8 +36,11 @@ const PlayerForm = (props) => {
                             setFormState({available: true})
                         }
                     })
-                    if (props.exist){
-                        return (formState.available || value==props.playerData.player_id)
+                    if (props.exist) {
+                        return (
+                            formState.available ||
+                            value == props.playerData.player_id
+                        )
                     } else {
                         return formState.available
                     }
@@ -48,7 +50,7 @@ const PlayerForm = (props) => {
 
             nationality: Yup.string().required('Sorry, this is required.'),
 
-            positions: Yup.string().required('Sorry, this is required.'),
+            position: Yup.string().required('Sorry, this is required.'),
 
             overall: Yup.number()
                 .required('Sorry, this is required.')
@@ -100,11 +102,11 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('player_id')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.player_id && formik.touched.player_id ? (
                         <span>{formik.errors.player_id}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
@@ -116,11 +118,11 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('name')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.name && formik.touched.name ? (
                         <span>{formik.errors.name}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
@@ -132,27 +134,27 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('nationality')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.nationality && formik.touched.nationality ? (
                         <span>{formik.errors.nationality}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
-                <label htmlFor="positions">Positions</label>
+                <label htmlFor="position">Positions</label>
                 <input
                     className="input-box"
-                    id="positions"
-                    name="positions"
+                    id="position"
+                    name="position"
                     type="text"
-                    {...formik.getFieldProps('positions')}
+                    {...formik.getFieldProps('position')}
                 />
-                <div className="error">
-                    {formik.errors.positions && formik.touched.positions ? (
-                        <span>{formik.errors.positions}</span>
+                <p className="error">
+                    {formik.errors.position && formik.touched.position ? (
+                        <span>{formik.errors.position}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
@@ -164,11 +166,11 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('overall')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.overall && formik.touched.overall ? (
                         <span>{formik.errors.overall}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
@@ -180,11 +182,11 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('age')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.age && formik.touched.age ? (
                         <span>{formik.errors.age}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
@@ -196,11 +198,11 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('hits')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.hits && formik.touched.hits ? (
                         <span>{formik.errors.hits}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
@@ -212,11 +214,11 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('potential')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.potential && formik.touched.potential ? (
                         <span>{formik.errors.potential}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <div className="form-component">
@@ -228,11 +230,11 @@ const PlayerForm = (props) => {
                     type="text"
                     {...formik.getFieldProps('team')}
                 />
-                <div className="error">
+                <p className="error">
                     {formik.errors.team && formik.touched.team ? (
                         <span>{formik.errors.team}</span>
                     ) : null}
-                </div>
+                </p>
             </div>
 
             <button className="button" type="submit">

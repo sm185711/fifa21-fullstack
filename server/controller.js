@@ -75,6 +75,7 @@ exports.getPlayerByID = async (req, res) => {
 
 exports.updatePlayer = async (req, res) => {
     console.log('updatePlayer called.')
+    console.log(req)
     let body = req.body
 
     pool.query(`

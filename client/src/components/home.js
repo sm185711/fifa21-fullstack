@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import apis from '../api'
-import {LinkContainer} from 'react-router-bootstrap'
 import PlayerForm from './form'
 
 const Home = () => {
@@ -83,14 +82,14 @@ const Home = () => {
                 {homeState.data.length > 0
                     ? homeState.data.map((player) => (
                           <div key={player.player_id}>
-                              <LinkContainer to={`/player/${player.player_id}`}>
+                              <a href={`/player/${player.player_id}`}>
                                   <div className="card">
                                       <div className="card-header">
                                           <div className='card-name'>{player.name}</div>
                                           <div className='card-desc'>{player.team}</div>
                                       </div>
                                   </div>
-                              </LinkContainer>
+                              </a>
                           </div>
                       ))
                     : 
