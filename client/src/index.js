@@ -1,12 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import RoutesComponent from './routes'
+import App from './app'
+import {createTheme, ThemeProvider} from '@mui/material'
 
 import './styles/styles.css'
 
+const theme = createTheme({
+    typography: {
+        fontFamily: ['Inter', '-apple-system', 'BlinkMacSystemFont'].join(','),
+    },
+})
+
 ReactDOM.render(
     <React.StrictMode>
-        <RoutesComponent />
+        <ThemeProvider theme={theme}>
+            <App />
+        </ThemeProvider>
     </React.StrictMode>,
     document.getElementById('root')
 )

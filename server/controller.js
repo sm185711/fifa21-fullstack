@@ -1,32 +1,29 @@
 const pool = require('./dbconfig')
 
-
-
 exports.root = async (req, res) => {
     console.log('Server testing.')
     return res.status(200).json('Hello World!')
 }
 
-
-
 exports.getPlayers = async (req, res) => {
-
     let metric = req.params.metric
     let order = req.params.order
-    let searchTerm = req.params.searchTerm == '--' ? '%%' : '%' + req.params.searchTerm + '%'
+    let searchTerm =
+        req.params.searchTerm == '--' ? '%%' : '%' + req.params.searchTerm + '%'
 
     console.log('getPlayers called.')
     //console.log(`SELECT * FROM data WHERE name LIKE '${searchTerm}' ORDER BY ${metric} ${order} LIMIT 10`)
 
-    pool.query(`SELECT * FROM data WHERE name LIKE '${searchTerm}' ORDER BY ${metric} ${order} LIMIT 5`, (error, results) => {
-        if (error) {
-            throw error
+    pool.query(
+        `SELECT * FROM data WHERE name LIKE '${searchTerm}' ORDER BY ${metric} ${order} LIMIT 5`,
+        (error, results) => {
+            if (error) {
+                throw error
+            }
+            res.status(200).json(results.rows)
         }
-        res.status(200).json(results.rows)
-    })
+    )
 }
-
-
 
 exports.createPlayer = async (req, res) => {
     console.log('createPlayer called.')
@@ -51,12 +48,10 @@ exports.createPlayer = async (req, res) => {
                 throw error
             }
             console.log(results.rows)
-            res.status(200).json({status: "Player created."})
+            res.status(200).json({status: 'Player created.'})
         }
     )
 }
-
-
 
 exports.getPlayerByID = async (req, res) => {
     console.log('getPlayerByID called.')
@@ -71,14 +66,13 @@ exports.getPlayerByID = async (req, res) => {
     })
 }
 
-
-
 exports.updatePlayer = async (req, res) => {
     console.log('updatePlayer called.')
     console.log(req)
     let body = req.body
 
-    pool.query(`
+    pool.query(
+        `
       UPDATE data SET 
         name = '${body.name}', 
         nationality = '${body.nationality}', 
@@ -95,22 +89,23 @@ exports.updatePlayer = async (req, res) => {
                 throw error
             }
             console.log(results.rows)
-            res.status(200).json({status: "Player updated."})
+            res.status(200).json({status: 'Player updated.'})
         }
     )
 }
-
-
 
 exports.deletePlayer = async (req, res) => {
     console.log('deletePlayer called.')
     let ID = req.params.id
 
-    pool.query(`DELETE FROM data WHERE player_id = '${ID}' RETURNING *`, (error, results) => {
-        if (error) {
-            throw error
+    pool.query(
+        `DELETE FROM data WHERE player_id = '${ID}' RETURNING *`,
+        (error, results) => {
+            if (error) {
+                throw error
+            }
+            console.log(results.rows)
+            res.status(200).json({status: 'Player deleted.'})
         }
-        console.log(results.rows)
-        res.status(200).json({status: "Player deleted."})
-    })
+    )
 }

@@ -2,13 +2,37 @@ import React, {useState} from 'react'
 import {useFormik} from 'formik'
 import apis from '../api'
 import * as Yup from 'yup'
+import {
+    Dialog,
+    DialogActions,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    TextField,
+    Button,
+} from '@mui/material'
+import ConfirmationDialog from './ConfirmationDialog'
 
 const PlayerForm = (props) => {
     let [formState, setFormState] = useState({available: false})
+    let [confirmationStatus, setConfirmationStatus] = useState(false)
+
+    const handleClose = () => {
+        confirmationHandleClose()
+        props.setOpen(false)
+    }
+
+    const confirmationHandleClose = () => {
+        setConfirmationStatus(false)
+    }
+
+    const confirmationHandleOpen = () => {
+        setConfirmationStatus(true)
+    }
 
     const formik = useFormik({
         initialValues: {
-            player_id: props.exist ? props.playerData.player_id : '',
+            player_id: props.exist ? 0 : '',
             name: props.exist ? props.playerData.name : '',
             nationality: props.exist ? props.playerData.nationality : '',
             overall: props.exist ? props.playerData.overall : '',
@@ -39,7 +63,7 @@ const PlayerForm = (props) => {
                     if (props.exist) {
                         return (
                             formState.available ||
-                            value == props.playerData.player_id
+                            value === props.playerData.player_id
                         )
                     } else {
                         return formState.available
@@ -88,159 +112,182 @@ const PlayerForm = (props) => {
                 : apis.insertPlayer(values).then((response) => {
                       console.log(response.data)
                   })
+            handleClose()
         },
     })
 
     return (
-        <form className="form" onSubmit={formik.handleSubmit}>
-            <div className="form-component">
-                <label htmlFor="player_id">Player ID</label>
-                <input
-                    className="input-box"
-                    id="player_id"
-                    name="player_id"
-                    type="text"
-                    {...formik.getFieldProps('player_id')}
-                />
-                <p className="error">
-                    {formik.errors.player_id && formik.touched.player_id ? (
-                        <span>{formik.errors.player_id}</span>
-                    ) : null}
-                </p>
-            </div>
+        <>
+            {confirmationStatus === false ? (
+                <Dialog open={props.open} onClose={handleClose} fullWidth>
+                    <DialogTitle>
+                        {props.exist ? 'Edit' : 'Create'} Player
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Please fill all the fields below.
+                        </DialogContentText>
+                        <form className="form" onSubmit={formik.handleSubmit}>
+                            {props.exist ? null : (
+                                <>
+                                    <TextField
+                                        className="input-box"
+                                        id="player_id"
+                                        name="player_id"
+                                        type="number"
+                                        label="Player ID"
+                                        {...formik.getFieldProps('player_id')}
+                                    />
+                                    <p className="error">
+                                        {formik.errors.player_id &&
+                                        formik.touched.player_id ? (
+                                            <span>
+                                                {formik.errors.player_id}
+                                            </span>
+                                        ) : null}
+                                    </p>
+                                </>
+                            )}
 
-            <div className="form-component">
-                <label htmlFor="name">Player Name</label>
-                <input
-                    className="input-box"
-                    id="name"
-                    name="name"
-                    type="text"
-                    {...formik.getFieldProps('name')}
-                />
-                <p className="error">
-                    {formik.errors.name && formik.touched.name ? (
-                        <span>{formik.errors.name}</span>
-                    ) : null}
-                </p>
-            </div>
+                            <TextField
+                                className="input-box"
+                                id="name"
+                                name="name"
+                                type="text"
+                                label="Player Name"
+                                {...formik.getFieldProps('name')}
+                            />
+                            <p className="error">
+                                {formik.errors.name && formik.touched.name ? (
+                                    <span>{formik.errors.name}</span>
+                                ) : null}
+                            </p>
 
-            <div className="form-component">
-                <label htmlFor="nationality">Country</label>
-                <input
-                    className="input-box"
-                    id="nationality"
-                    name="nationality"
-                    type="text"
-                    {...formik.getFieldProps('nationality')}
-                />
-                <p className="error">
-                    {formik.errors.nationality && formik.touched.nationality ? (
-                        <span>{formik.errors.nationality}</span>
-                    ) : null}
-                </p>
-            </div>
+                            <TextField
+                                className="input-box"
+                                id="nationality"
+                                name="nationality"
+                                type="text"
+                                label="Country"
+                                {...formik.getFieldProps('nationality')}
+                            />
+                            <p className="error">
+                                {formik.errors.nationality &&
+                                formik.touched.nationality ? (
+                                    <span>{formik.errors.nationality}</span>
+                                ) : null}
+                            </p>
 
-            <div className="form-component">
-                <label htmlFor="position">Positions</label>
-                <input
-                    className="input-box"
-                    id="position"
-                    name="position"
-                    type="text"
-                    {...formik.getFieldProps('position')}
-                />
-                <p className="error">
-                    {formik.errors.position && formik.touched.position ? (
-                        <span>{formik.errors.position}</span>
-                    ) : null}
-                </p>
-            </div>
+                            <TextField
+                                className="input-box"
+                                id="position"
+                                name="position"
+                                type="text"
+                                label="Positions"
+                                {...formik.getFieldProps('position')}
+                            />
+                            <p className="error">
+                                {formik.errors.position &&
+                                formik.touched.position ? (
+                                    <span>{formik.errors.position}</span>
+                                ) : null}
+                            </p>
 
-            <div className="form-component">
-                <label htmlFor="overall">Overall</label>
-                <input
-                    className="input-box"
-                    id="overall"
-                    name="overall"
-                    type="text"
-                    {...formik.getFieldProps('overall')}
-                />
-                <p className="error">
-                    {formik.errors.overall && formik.touched.overall ? (
-                        <span>{formik.errors.overall}</span>
-                    ) : null}
-                </p>
-            </div>
+                            <TextField
+                                className="input-box"
+                                id="overall"
+                                name="overall"
+                                type="number"
+                                label="Overall"
+                                {...formik.getFieldProps('overall')}
+                            />
+                            <p className="error">
+                                {formik.errors.overall &&
+                                formik.touched.overall ? (
+                                    <span>{formik.errors.overall}</span>
+                                ) : null}
+                            </p>
 
-            <div className="form-component">
-                <label htmlFor="age">Age</label>
-                <input
-                    className="input-box"
-                    id="age"
-                    name="age"
-                    type="text"
-                    {...formik.getFieldProps('age')}
-                />
-                <p className="error">
-                    {formik.errors.age && formik.touched.age ? (
-                        <span>{formik.errors.age}</span>
-                    ) : null}
-                </p>
-            </div>
+                            <TextField
+                                className="input-box"
+                                id="age"
+                                name="age"
+                                type="number"
+                                label="Age"
+                                {...formik.getFieldProps('age')}
+                            />
+                            <p className="error">
+                                {formik.errors.age && formik.touched.age ? (
+                                    <span>{formik.errors.age}</span>
+                                ) : null}
+                            </p>
 
-            <div className="form-component">
-                <label htmlFor="hits">Hits</label>
-                <input
-                    className="input-box"
-                    id="hits"
-                    name="hits"
-                    type="text"
-                    {...formik.getFieldProps('hits')}
-                />
-                <p className="error">
-                    {formik.errors.hits && formik.touched.hits ? (
-                        <span>{formik.errors.hits}</span>
-                    ) : null}
-                </p>
-            </div>
+                            <TextField
+                                className="input-box"
+                                id="hits"
+                                name="hits"
+                                type="number"
+                                label="Hits"
+                                {...formik.getFieldProps('hits')}
+                            />
+                            <p className="error">
+                                {formik.errors.hits && formik.touched.hits ? (
+                                    <span>{formik.errors.hits}</span>
+                                ) : null}
+                            </p>
 
-            <div className="form-component">
-                <label htmlFor="potential">Potential</label>
-                <input
-                    className="input-box"
-                    id="potential"
-                    name="potential"
-                    type="text"
-                    {...formik.getFieldProps('potential')}
-                />
-                <p className="error">
-                    {formik.errors.potential && formik.touched.potential ? (
-                        <span>{formik.errors.potential}</span>
-                    ) : null}
-                </p>
-            </div>
+                            <TextField
+                                className="input-box"
+                                id="potential"
+                                name="potential"
+                                type="number"
+                                label="Potential"
+                                {...formik.getFieldProps('potential')}
+                            />
+                            <p className="error">
+                                {formik.errors.potential &&
+                                formik.touched.potential ? (
+                                    <span>{formik.errors.potential}</span>
+                                ) : null}
+                            </p>
 
-            <div className="form-component">
-                <label htmlFor="team">Team</label>
-                <input
-                    className="input-box"
-                    id="team"
-                    name="team"
-                    type="text"
-                    {...formik.getFieldProps('team')}
+                            <TextField
+                                className="input-box"
+                                id="team"
+                                name="team"
+                                type="text"
+                                label="Team"
+                                {...formik.getFieldProps('team')}
+                            />
+                            <p className="error">
+                                {formik.errors.team && formik.touched.team ? (
+                                    <span>{formik.errors.team}</span>
+                                ) : null}
+                            </p>
+                        </form>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            className="button"
+                            type="submit"
+                            variant="outlined"
+                            onClick={confirmationHandleOpen}
+                            // onClick={formik.handleSubmit}
+                            sx={{margin: '20px'}}
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            ) : (
+                <ConfirmationDialog
+                    open={confirmationStatus}
+                    handleClose={confirmationHandleClose}
+                    exist={props.exist}
+                    handleSubmit={formik.handleSubmit}
                 />
-                <p className="error">
-                    {formik.errors.team && formik.touched.team ? (
-                        <span>{formik.errors.team}</span>
-                    ) : null}
-                </p>
-            </div>
-
-            <button className="button" type="submit">
-                Submit
-            </button>
-        </form>
+            )}
+        </>
     )
 }
 
