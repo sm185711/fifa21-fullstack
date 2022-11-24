@@ -1,6 +1,5 @@
 import {
-    AppBar,
-    IconButton,
+    Button,
     MenuItem,
     Select,
     TextField,
@@ -11,11 +10,12 @@ import {
 } from '@mui/material'
 import React, {useEffect, useState} from 'react'
 import apis from '../api'
-import PlayerForm from '../components/form'
+import PlayerForm from '../components/PlayerForm'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
-import Player from './player'
+import Player from '../components/PlayerCard'
 
 const Home = () => {
+    // States
     const [homeState, setHomeState] = useState({
         data: [],
         loading: false,
@@ -27,6 +27,7 @@ const Home = () => {
     })
     const [formOpen, setFormOpen] = useState(false)
 
+    // Helper Functions
     const handleSort = (value) => {
         setHomeState({...homeState, metric: value.target.value})
     }
@@ -53,7 +54,7 @@ const Home = () => {
         setHomeState({...homeState, id: id})
     }
 
-    useEffect(() => {
+    const fetchPlayers = async () => {
         setHomeState({...homeState, loading: true})
         apis.getPlayers(
             homeState.metric,
@@ -62,17 +63,11 @@ const Home = () => {
         ).then((response) => {
             setHomeState({...homeState, data: response.data, loading: false})
         })
-    }, [])
+    }
 
+    // LifeCycle
     useEffect(() => {
-        setHomeState({...homeState, loading: true})
-        apis.getPlayers(
-            homeState.metric,
-            homeState.order,
-            homeState.searchTerm
-        ).then((response) => {
-            setHomeState({...homeState, data: response.data, loading: false})
-        })
+        fetchPlayers()
     }, [
         homeState.metric,
         homeState.order,
@@ -80,153 +75,117 @@ const Home = () => {
         homeState.toggleCreate,
     ])
 
+    // Render
     return (
-        <>
-            <nav
-                style={{
-                    backgroundColor: 'transparent',
-                    backdropFilter: 'blur(10px)',
-                    padding: '0px 10px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
-            >
+        <div id="main">
+            <nav>
                 <a className="topbar-a" href="/">
-                    <img className="logo" src="logo.png" />
-                    <Typography
-                        className="brand"
-                        variant="h5"
-                        sx={{
-                            color: 'white',
-                        }}
-                    >
+                    <img className="logo" alt="FIFA 21 Logo" src="logo.png" />
+                    <Typography className="brand" variant="h5">
                         DATABASE
                     </Typography>
                 </a>
                 <TextField
                     type="text"
+                    id="search"
+                    className="abcd"
                     onChange={handleSearch}
                     variant="outlined"
                     placeholder="Search"
+                    size="small"
                     sx={{
-                        background: 'rgba(220, 220, 220, 0.5)',
-                        backdropFilter: 'blur(5px)',
-                        borderRadius: '50px',
-                        width: '1000px',
-                        boxShadow:
-                            '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+                        '& .MuiInputBase-root': {
+                            borderRadius: '50px',
+                        },
                     }}
                 />
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}
+                <Select
+                    id="metric"
+                    onChange={handleSort}
+                    labelId="metric"
+                    value={homeState.metric}
+                    placeholder="Metric"
+                    className="select-dropdown"
                 >
-                    <Select
-                        id="metric"
-                        onChange={handleSort}
-                        labelId="metric"
-                        value={homeState.metric}
-                        placeholder="Metric"
-                        className="select-dropdown"
-                        sx={{
-                            backdropFilter: 'blur(5px)',
-                            background: 'rgba(220, 220, 220, 0.5)',
+                    <MenuItem value="overall" defaultValue={true}>
+                        Overall
+                    </MenuItem>
+                    <MenuItem value="name">Name</MenuItem>
+                    <MenuItem value="age">Age</MenuItem>
+                </Select>
 
-                            boxShadow:
-                                '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-                        }}
-                    >
-                        <MenuItem value="overall" defaultValue={true}>
-                            Overall
-                        </MenuItem>
-                        <MenuItem value="name">Name</MenuItem>
-                        <MenuItem value="age">Age</MenuItem>
-                    </Select>
+                <Select
+                    id="order"
+                    onChange={handleOrder}
+                    labelId="order"
+                    value={homeState.order}
+                    placeholder="Order"
+                    className="select-dropdown"
+                >
+                    <MenuItem value="DESC" defaultValue={true}>
+                        Descending
+                    </MenuItem>
+                    <MenuItem value="ASC">Ascending</MenuItem>
+                </Select>
 
-                    <Select
-                        id="order"
-                        onChange={handleOrder}
-                        labelId="order"
-                        value={homeState.order}
-                        placeholder="Order"
-                        className="select-dropdown"
-                        sx={{
-                            backdropFilter: 'blur(5px)',
-                            background: 'rgba(220, 220, 220, 0.5)',
-                            boxShadow:
-                                '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-                        }}
-                    >
-                        <MenuItem value="DESC" defaultValue={true}>
-                            Descending
-                        </MenuItem>
-                        <MenuItem value="ASC">Ascending</MenuItem>
-                    </Select>
-
-                    <IconButton onClick={handleCreate}>
-                        <AddCircleOutlineRoundedIcon
-                            sx={{color: 'white'}}
-                            fontSize="large"
-                        />
-                    </IconButton>
-                </div>
+                <Button id="create-button" onClick={handleCreate}>
+                    <AddCircleOutlineRoundedIcon
+                        sx={{color: 'black'}}
+                        fontSize="medium"
+                    />
+                    Player
+                </Button>
             </nav>
+
             <div
                 style={{
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                    justifyContent: 'center',
                 }}
             >
-                <div
-                    styles={{
-                        width: '500px',
-                        height: '500px',
-                        backgroundColor: 'red',
-                    }}
-                >
-                    {' '}
-                </div>
-                <Player id={homeState.id} />
+                <Player
+                    id={homeState.id}
+                    homeState={homeState}
+                    setHomeState={setHomeState}
+                />
+            </div>
 
-                <div className="card-list">
-                    {homeState.data.length > 0 ? (
-                        homeState.data.map((player, idx) => (
-                            <div key={player.player_id}>
-                                <Card
-                                    sx={{
-                                        margin: '20px',
-                                        color: 'black',
-                                        background: 'rgba(220, 220, 220, 0.5)',
-                                        backdropFilter: 'blur(5px)',
-                                    }}
-                                    onClick={() =>
-                                        handleSelectCard(player.player_id)
-                                    }
-                                >
-                                    <CardActionArea sx={{padding: '10px'}}>
-                                        <CardContent>
-                                            <Typography
-                                                variant="h4"
-                                                sx={{marginBottom: '5px'}}
-                                            >
-                                                {`${idx + 1}. ` + player.name}
-                                            </Typography>
-                                            <Typography variant="subtitle1">
-                                                {player.team}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </div>
-                        ))
-                    ) : (
-                        <div>No players found.</div>
-                    )}
-                </div>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    margin: '0px 100px',
+                }}
+            >
+                {homeState.data.length > 0 ? (
+                    homeState.data.map((player, idx) => (
+                        <div key={player.player_id}>
+                            <Card
+                                id="card-list-item"
+                                onClick={() =>
+                                    handleSelectCard(player.player_id)
+                                }
+                            >
+                                <CardActionArea sx={{padding: '10px'}}>
+                                    <CardContent>
+                                        <Typography
+                                            variant="h4"
+                                            sx={{marginBottom: '5px'}}
+                                        >
+                                            {player.name}
+                                        </Typography>
+                                        <Typography variant="subtitle1">
+                                            {player.team}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </div>
+                    ))
+                ) : (
+                    <div>No players found.</div>
+                )}
             </div>
 
             {homeState.toggleCreate ? (
@@ -238,7 +197,7 @@ const Home = () => {
                     />
                 </div>
             ) : null}
-        </>
+        </div>
     )
 }
 

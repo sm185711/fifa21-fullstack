@@ -8,6 +8,16 @@ import './styles/styles.css'
 const theme = createTheme({
     typography: {
         fontFamily: ['Inter', '-apple-system', 'BlinkMacSystemFont'].join(','),
+        color: 'white',
+    },
+    palette: {
+        type: 'light',
+        primary: {
+            main: '#209E2F',
+        },
+        secondary: {
+            main: '#f50057',
+        },
     },
 })
 

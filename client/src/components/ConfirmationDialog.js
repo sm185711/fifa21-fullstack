@@ -11,11 +11,10 @@ import React from 'react'
 const ConfirmationDialog = (props) => {
     return (
         <Dialog open={props.open} onClose={props.handleClose} fullWidth>
-            <DialogTitle>{props.exist ? 'Edit' : 'Create'} Player</DialogTitle>
+            <DialogTitle>Delete Player</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Are you sure you want to {props.exist ? 'edit' : 'create'}{' '}
-                    the player?
+                    Are you sure you want to delete the player?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -23,19 +22,19 @@ const ConfirmationDialog = (props) => {
                     className="button"
                     autoFocus
                     variant="outlined"
-                    onClick={props.handleSubmit}
+                    onClick={props.handleClose}
                     sx={{margin: '20px'}}
                 >
-                    Yes
+                    No
                 </Button>
                 <Button
                     className="button"
                     type="submit"
                     variant="outlined"
-                    onClick={props.handleClose}
+                    onClick={props.handleSubmit}
                     sx={{margin: '20px'}}
                 >
-                    No
+                    Yes
                 </Button>
             </DialogActions>
         </Dialog>

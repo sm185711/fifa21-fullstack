@@ -9,13 +9,15 @@ exports.getPlayers = async (req, res) => {
     let metric = req.params.metric
     let order = req.params.order
     let searchTerm =
-        req.params.searchTerm == '--' ? '%%' : '%' + req.params.searchTerm + '%'
+        req.params.searchTerm == '--'
+            ? '%%'
+            : '%' + req.params.searchTerm.toLowerCase() + '%'
 
     console.log('getPlayers called.')
     //console.log(`SELECT * FROM data WHERE name LIKE '${searchTerm}' ORDER BY ${metric} ${order} LIMIT 10`)
 
     pool.query(
-        `SELECT * FROM data WHERE name LIKE '${searchTerm}' ORDER BY ${metric} ${order} LIMIT 5`,
+        `SELECT * FROM data WHERE LOWER(name) LIKE '${searchTerm}' ORDER BY ${metric} ${order} LIMIT 5`,
         (error, results) => {
             if (error) {
                 throw error
