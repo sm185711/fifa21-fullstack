@@ -10,10 +10,13 @@ import {
     DialogContentText,
     TextField,
     Button,
+    Grid,
 } from '@mui/material'
 import {formFields} from '../constants/formFields'
 
 const PlayerForm = (props) => {
+    console.log(props)
+
     // State
     const [formState, setFormState] = useState({available: false})
 
@@ -90,16 +93,38 @@ const PlayerForm = (props) => {
         }),
 
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2))
+            // alert(JSON.stringify(values, null, 2))
             props.exist
                 ? apis
                       .updatePlayerById(props.playerData.player_id, values)
                       .then((response) => {
                           console.log(response.data)
+                          props.setToasterOpen({
+                              ...props['toasterOpen'],
+                              success: true,
+                          })
                       })
-                : apis.insertPlayer(values).then((response) => {
-                      console.log(response.data)
-                  })
+                      .catch((error) => {
+                          props.setToasterOpen({
+                              ...props['toasterOpen'],
+                              error: true,
+                          })
+                      })
+                : apis
+                      .insertPlayer(values)
+                      .then((response) => {
+                          console.log(response.data)
+                          props.setToasterOpen({
+                              ...props['toasterOpen'],
+                              success: true,
+                          })
+                      })
+                      .catch((error) => {
+                          props.setToasterOpen({
+                              ...props['toasterOpen'],
+                              error: true,
+                          })
+                      })
             handleClose()
         },
     })
@@ -139,29 +164,30 @@ const PlayerForm = (props) => {
                                 </p>
                             </>
                         )}
-
-                        {formFields.map((field) => {
-                            return (
-                                <>
-                                    <TextField
-                                        className="input-box"
-                                        id={field.id}
-                                        name={field.id}
-                                        type={field.type}
-                                        label={field.label}
-                                        {...formik.getFieldProps(field.id)}
-                                    />
-                                    <p className="error">
-                                        {formik.errors[field.id] &&
-                                        formik.touched[field.id] ? (
-                                            <span>
-                                                {formik.errors[field.id]}
-                                            </span>
-                                        ) : null}
-                                    </p>
-                                </>
-                            )
-                        })}
+                        <Grid container spacing={2}>
+                            {formFields.map((field) => {
+                                return (
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            className="input-box"
+                                            id={field.id}
+                                            name={field.id}
+                                            type={field.type}
+                                            label={field.label}
+                                            {...formik.getFieldProps(field.id)}
+                                        />
+                                        <p className="error">
+                                            {formik.errors[field.id] &&
+                                            formik.touched[field.id] ? (
+                                                <span>
+                                                    {formik.errors[field.id]}
+                                                </span>
+                                            ) : null}
+                                        </p>
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
                     </form>
                 </DialogContent>
                 <DialogActions>

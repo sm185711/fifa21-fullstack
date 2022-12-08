@@ -13,7 +13,13 @@ import EditIcon from '@mui/icons-material/Edit'
 import ConfirmationDialog from './ConfirmationDialog'
 import {formFields} from '../constants/formFields'
 
-const PlayerCard = ({id, homeState, setHomeState}) => {
+const PlayerCard = ({
+    id,
+    homeState,
+    setHomeState,
+    toasterOpen,
+    setToasterOpen,
+}) => {
     // States
     let [playerState, setPlayerState] = useState({
         playerData: {},
@@ -33,9 +39,14 @@ const PlayerCard = ({id, homeState, setHomeState}) => {
 
     // Helper Functions
     const handleDelete = () => {
-        apis.deletePlayerById(id).then((response) => {
-            console.log('Player Deleted!')
-        })
+        apis.deletePlayerById(id)
+            .then((response) => {
+                console.log('Player Deleted!')
+                setToasterOpen({...toasterOpen, delete: true})
+            })
+            .catch((error) => {
+                setToasterOpen({...toasterOpen, error: true})
+            })
         handleConfirmationClose()
     }
 
@@ -111,6 +122,8 @@ const PlayerCard = ({id, homeState, setHomeState}) => {
                                 exist={true}
                                 open={formOpen}
                                 setOpen={setFormOpen}
+                                setToasterOpen={setToasterOpen}
+                                toasterOpen={toasterOpen}
                             />
                         ) : null}
                         <IconButton onClick={handleConfirmationOpen}>

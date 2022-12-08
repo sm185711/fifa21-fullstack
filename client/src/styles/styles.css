@@ -16,6 +16,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     font-family: Inter, sans-serif;
+    margin: 0px;
 }
 
 li {
@@ -38,7 +39,8 @@ ul {
 .brand {
     font-style: italic;
     font-weight: bold;
-    display: inline;
+    display: inline-block;
+    color: white;
 }
 
 .button {
@@ -63,6 +65,11 @@ ul {
     font-size: 14px;
 }
 
+.filter-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
 .form {
     margin-top: 30px;
     transition: 1s;
@@ -74,13 +81,24 @@ ul {
     display: block;
 }
 
+.home-button {
+    display: flex;
+    align-items: center;
+}
+
 .logo {
     margin-right: 7px;
     vertical-align: -90%;
     margin: 5px 20px 5px 5px;
-    display: inline-block;
     height: 40px;
     width: 160px;
+}
+
+.player-cards {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .player-data {
@@ -97,6 +115,7 @@ ul {
     height: 40px;
     box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
         0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+    margin-right: 10px;
 }
 
 /* ID STYLES */
@@ -114,10 +133,10 @@ ul {
         0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
     background: rgba(220, 220, 220, 0.5);
     backdrop-filter: blur(5px);
-    width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    min-width: 350px;
 }
 
 #create-button {
@@ -130,22 +149,91 @@ ul {
     min-width: 100px;
     box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
         0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+    margin-right: 10px;
 }
 
 #main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 90vh;
+    height: 100vh;
 }
 
 #search {
     background: rgba(220, 220, 220, 0.5);
     backdrop-filter: blur(5px);
     border-radius: 50px;
-    width: 1000px;
-    max-width: 1000px;
-    min-width: 200px;
     box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
         0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+    width: 1000px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 640px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 768px) {
+    #search {
+        width: 87vw;
+    }
+
+    nav {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .player-cards {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin: 0px 0px;
+    }
+
+    .filter-buttons {
+        display: flex;
+        justify-content: space-around;
+        width: 100vw;
+        margin: 20px 0px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 1024px) {
+    #search {
+        width: 87vw;
+    }
+
+    .select-dropdown {
+        margin-right: 0px;
+    }
+
+    #create-button {
+        margin-right: 0px;
+    }
+
+    nav {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .filter-buttons {
+        display: flex;
+        justify-content: space-around;
+        width: 100vw;
+        margin: 20px 0px;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (max-width: 1280px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (max-width: 1536px) {
+    .player-cards {
+        display: flex;
+
+        margin: 0px 0px;
+    }
 }

@@ -1,4 +1,5 @@
 import {
+    Alert,
     Button,
     MenuItem,
     Select,
@@ -6,7 +7,9 @@ import {
     Card,
     CardActionArea,
     CardContent,
+    Snackbar,
     Typography,
+    CircularProgress,
 } from '@mui/material'
 import React, {useEffect, useState} from 'react'
 import apis from '../api'
@@ -26,6 +29,11 @@ const Home = () => {
         id: 20801,
     })
     const [formOpen, setFormOpen] = useState(false)
+    const [toasterOpen, setToasterOpen] = useState({
+        success: false,
+        error: false,
+        delete: false,
+    })
 
     // Helper Functions
     const handleSort = (value) => {
@@ -54,6 +62,10 @@ const Home = () => {
         setHomeState({...homeState, id: id})
     }
 
+    const handleToasterClose = () => {
+        setToasterOpen({success: false, error: false, delete: false})
+    }
+
     const fetchPlayers = async () => {
         setHomeState({...homeState, loading: true})
         apis.getPlayers(
@@ -79,7 +91,7 @@ const Home = () => {
     return (
         <div id="main">
             <nav>
-                <a className="topbar-a" href="/">
+                <a className="home-button" href="/">
                     <img className="logo" alt="FIFA 21 Logo" src="logo.png" />
                     <Typography className="brand" variant="h5">
                         DATABASE
@@ -88,7 +100,6 @@ const Home = () => {
                 <TextField
                     type="text"
                     id="search"
-                    className="abcd"
                     onChange={handleSearch}
                     variant="outlined"
                     placeholder="Search"
@@ -96,47 +107,49 @@ const Home = () => {
                     sx={{
                         '& .MuiInputBase-root': {
                             borderRadius: '50px',
+                            marginInline: '20px',
                         },
                     }}
                 />
-                <Select
-                    id="metric"
-                    onChange={handleSort}
-                    labelId="metric"
-                    value={homeState.metric}
-                    placeholder="Metric"
-                    className="select-dropdown"
-                >
-                    <MenuItem value="overall" defaultValue={true}>
-                        Overall
-                    </MenuItem>
-                    <MenuItem value="name">Name</MenuItem>
-                    <MenuItem value="age">Age</MenuItem>
-                </Select>
+                <div className="filter-buttons">
+                    <Select
+                        id="metric"
+                        onChange={handleSort}
+                        labelId="metric"
+                        value={homeState.metric}
+                        placeholder="Metric"
+                        className="select-dropdown"
+                    >
+                        <MenuItem value="overall" defaultValue={true}>
+                            Overall
+                        </MenuItem>
+                        <MenuItem value="name">Name</MenuItem>
+                        <MenuItem value="age">Age</MenuItem>
+                    </Select>
 
-                <Select
-                    id="order"
-                    onChange={handleOrder}
-                    labelId="order"
-                    value={homeState.order}
-                    placeholder="Order"
-                    className="select-dropdown"
-                >
-                    <MenuItem value="DESC" defaultValue={true}>
-                        Descending
-                    </MenuItem>
-                    <MenuItem value="ASC">Ascending</MenuItem>
-                </Select>
+                    <Select
+                        id="order"
+                        onChange={handleOrder}
+                        labelId="order"
+                        value={homeState.order}
+                        placeholder="Order"
+                        className="select-dropdown"
+                    >
+                        <MenuItem value="DESC" defaultValue={true}>
+                            Descending
+                        </MenuItem>
+                        <MenuItem value="ASC">Ascending</MenuItem>
+                    </Select>
 
-                <Button id="create-button" onClick={handleCreate}>
-                    <AddCircleOutlineRoundedIcon
-                        sx={{color: 'black'}}
-                        fontSize="medium"
-                    />
-                    Player
-                </Button>
+                    <Button id="create-button" onClick={handleCreate}>
+                        <AddCircleOutlineRoundedIcon
+                            sx={{color: 'black'}}
+                            fontSize="medium"
+                        />
+                        Player
+                    </Button>
+                </div>
             </nav>
-
             <div
                 style={{
                     display: 'flex',
@@ -147,17 +160,11 @@ const Home = () => {
                     id={homeState.id}
                     homeState={homeState}
                     setHomeState={setHomeState}
+                    setToasterOpen={setToasterOpen}
+                    toasterOpen={toasterOpen}
                 />
             </div>
-
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'row',
-                    margin: '0px 100px',
-                }}
-            >
+            <div className="player-cards">
                 {homeState.data.length > 0 ? (
                     homeState.data.map((player, idx) => (
                         <div key={player.player_id}>
@@ -187,16 +194,61 @@ const Home = () => {
                     <div>No players found.</div>
                 )}
             </div>
-
             {homeState.toggleCreate ? (
                 <div className="form-home">
                     <PlayerForm
                         exist={false}
                         open={formOpen}
                         setOpen={setFormOpen}
+                        setToasterOpen={setToasterOpen}
+                        toasterOpen={toasterOpen}
                     />
                 </div>
             ) : null}
+            <div>
+                <Snackbar
+                    open={toasterOpen.success}
+                    autoHideDuration={6000}
+                    onClose={handleToasterClose}
+                    message="Form submitted successfully!"
+                >
+                    <Alert
+                        onClose={handleToasterClose}
+                        severity="success"
+                        sx={{width: '100%'}}
+                    >
+                        Player added/updated successfully!
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={toasterOpen.error}
+                    autoHideDuration={6000}
+                    onClose={handleToasterClose}
+                    message="Form could not be submitted."
+                >
+                    <Alert
+                        onClose={handleToasterClose}
+                        severity="error"
+                        sx={{width: '100%'}}
+                    >
+                        There was an error!
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={toasterOpen.delete}
+                    autoHideDuration={6000}
+                    onClose={handleToasterClose}
+                    message="Form could not be submitted."
+                >
+                    <Alert
+                        onClose={handleToasterClose}
+                        severity="success"
+                        sx={{width: '100%'}}
+                    >
+                        Player deleted successfully!
+                    </Alert>
+                </Snackbar>
+            </div>
         </div>
     )
 }
