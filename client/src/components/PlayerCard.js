@@ -5,6 +5,7 @@ import {
     Card,
     CardActions,
     CardContent,
+    CircularProgress,
     IconButton,
     Typography,
 } from '@mui/material'
@@ -27,14 +28,20 @@ const PlayerCard = ({
     })
     const [formOpen, setFormOpen] = useState(false)
     const [confirmationOpen, setConfirmationOpen] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const updatePlayerData = async (id) => {
-        apis.getPlayerById(id).then((response) => {
-            setPlayerState({
-                ...playerState,
-                playerData: response.data[0],
+        setLoading(true)
+        apis.getPlayerById(id)
+            .then((response) => {
+                setPlayerState({
+                    ...playerState,
+                    playerData: response.data[0],
+                })
             })
-        })
+            .finally(() => {
+                setLoading(false)
+            })
     }
 
     // Helper Functions
@@ -86,50 +93,75 @@ const PlayerCard = ({
         <>
             <Card variant="sm" id="card-main" raised>
                 <CardContent>
-                    <Typography variant="h4" sx={{margin: '20px'}}>
-                        {playerState.playerData.name}
-                    </Typography>
-                    <ul>
-                        {formFields.map((field) => {
-                            if (field.id !== 'name') {
-                                return (
-                                    <li>
-                                        <Typography variant="body1">
-                                            {`${field.label}: `}
-                                            <strong>
-                                                {
-                                                    playerState.playerData[
-                                                        field.id
-                                                    ]
-                                                }
-                                            </strong>
-                                        </Typography>
-                                    </li>
-                                )
-                            }
-                        })}
-                    </ul>
-                    <CardActions
-                        sx={{display: 'flex', justifyContent: 'space-between'}}
-                    >
-                        <IconButton onClick={handleEdit}>
-                            <EditIcon variant="outlined" className="button" />
-                        </IconButton>
+                    {loading ? (
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                height: '412px',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <CircularProgress />
+                        </div>
+                    ) : (
+                        <>
+                            <Typography variant="h4" sx={{margin: '20px'}}>
+                                {playerState.playerData.name}
+                            </Typography>
+                            <ul>
+                                {formFields.map((field) => {
+                                    if (field.id !== 'name') {
+                                        return (
+                                            <li>
+                                                <Typography variant="body1">
+                                                    {`${field.label}: `}
+                                                    <strong>
+                                                        {
+                                                            playerState
+                                                                .playerData[
+                                                                field.id
+                                                            ]
+                                                        }
+                                                    </strong>
+                                                </Typography>
+                                            </li>
+                                        )
+                                    }
+                                })}
+                            </ul>
+                            <CardActions
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                }}
+                            >
+                                <IconButton onClick={handleEdit}>
+                                    <EditIcon
+                                        variant="outlined"
+                                        className="button"
+                                    />
+                                </IconButton>
 
-                        {playerState.toggleEdit ? (
-                            <PlayerForm
-                                playerData={playerState.playerData}
-                                exist={true}
-                                open={formOpen}
-                                setOpen={setFormOpen}
-                                setToasterOpen={setToasterOpen}
-                                toasterOpen={toasterOpen}
-                            />
-                        ) : null}
-                        <IconButton onClick={handleConfirmationOpen}>
-                            <DeleteIcon variant="outlined" className="button" />
-                        </IconButton>
-                    </CardActions>
+                                {playerState.toggleEdit ? (
+                                    <PlayerForm
+                                        playerData={playerState.playerData}
+                                        exist={true}
+                                        open={formOpen}
+                                        setOpen={setFormOpen}
+                                        setToasterOpen={setToasterOpen}
+                                        toasterOpen={toasterOpen}
+                                    />
+                                ) : null}
+                                <IconButton onClick={handleConfirmationOpen}>
+                                    <DeleteIcon
+                                        variant="outlined"
+                                        className="button"
+                                    />
+                                </IconButton>
+                            </CardActions>
+                        </>
+                    )}
                 </CardContent>
             </Card>
             {confirmationOpen ? (

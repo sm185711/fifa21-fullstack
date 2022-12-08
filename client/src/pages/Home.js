@@ -10,6 +10,7 @@ import {
     Snackbar,
     Typography,
     CircularProgress,
+    InputAdornment,
 } from '@mui/material'
 import React, {useEffect, useState} from 'react'
 import apis from '../api'
@@ -21,12 +22,13 @@ const Home = () => {
     // States
     const [homeState, setHomeState] = useState({
         data: [],
-        loading: false,
+        searchLoading: false,
         metric: 'overall',
         order: 'DESC',
         searchTerm: '--',
         toggleCreate: false,
         id: 20801,
+        cardLoading: true,
     })
     const [formOpen, setFormOpen] = useState(false)
     const [toasterOpen, setToasterOpen] = useState({
@@ -67,13 +69,17 @@ const Home = () => {
     }
 
     const fetchPlayers = async () => {
-        setHomeState({...homeState, loading: true})
+        setHomeState({...homeState, searchLoading: true})
         apis.getPlayers(
             homeState.metric,
             homeState.order,
             homeState.searchTerm
         ).then((response) => {
-            setHomeState({...homeState, data: response.data, loading: false})
+            setHomeState({
+                ...homeState,
+                data: response.data,
+                searchLoading: false,
+            })
         })
     }
 
@@ -106,11 +112,34 @@ const Home = () => {
                     size="small"
                     sx={{
                         '& .MuiInputBase-root': {
+                            background: 'rgba(220, 220, 220, 0.5)',
+                            backdropFilter: 'blur(5px)',
                             borderRadius: '50px',
-                            marginInline: '20px',
+                            width: '1000px',
+                            boxShadow:
+                                '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
                         },
                     }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                {homeState.searchLoading ? (
+                                    <CircularProgress
+                                        size={20}
+                                        style={{
+                                            position: 'relative',
+                                            zIndex: '-1',
+                                            color: 'black',
+                                        }}
+                                    />
+                                ) : (
+                                    <span style={{width: '20px'}} />
+                                )}
+                            </InputAdornment>
+                        ),
+                    }}
                 />
+
                 <div className="filter-buttons">
                     <Select
                         id="metric"
