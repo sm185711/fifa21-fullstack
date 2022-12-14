@@ -75,23 +75,28 @@ const Home = () => {
             homeState.order,
             homeState.searchTerm
         ).then((response) => {
-            setHomeState({
-                ...homeState,
-                data: response.data,
-                searchLoading: false,
-            })
+            setTimeout(
+                () =>
+                    setHomeState({
+                        ...homeState,
+                        data: response.data,
+                        searchLoading: false,
+                    }),
+                1000
+            )
         })
     }
 
     // LifeCycle
     useEffect(() => {
         fetchPlayers()
-    }, [
-        homeState.metric,
-        homeState.order,
-        homeState.searchTerm,
-        homeState.toggleCreate,
-    ])
+    }, [homeState.metric, homeState.order, homeState.toggleCreate])
+
+    useEffect(() => {
+        if (homeState.searchTerm.length >= 3) {
+            fetchPlayers()
+        }
+    }, [homeState.searchTerm])
 
     // Render
     return (
@@ -115,7 +120,8 @@ const Home = () => {
                             background: 'rgba(220, 220, 220, 0.5)',
                             backdropFilter: 'blur(5px)',
                             borderRadius: '50px',
-                            width: '1000px',
+                            margin: '0px 20px',
+                            // width: '1000px',
                             boxShadow:
                                 '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
                         },
