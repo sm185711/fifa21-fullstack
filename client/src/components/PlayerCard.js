@@ -14,16 +14,10 @@ import EditIcon from '@mui/icons-material/Edit'
 import ConfirmationDialog from './ConfirmationDialog'
 import {formFields} from '../constants/formFields'
 
-const PlayerCard = ({
-    id,
-    homeState,
-    setHomeState,
-    toasterOpen,
-    setToasterOpen,
-}) => {
+const PlayerCard = ({id, playerData, toasterOpen, setToasterOpen}) => {
     // States
     let [playerState, setPlayerState] = useState({
-        playerData: {},
+        playerData: playerData,
         togglEdit: false,
     })
     const [formOpen, setFormOpen] = useState(false)
@@ -77,17 +71,6 @@ const PlayerCard = ({
         }
     }, [formOpen])
 
-    useEffect(() => {
-        if (!confirmationOpen) {
-            updatePlayerData(20801)
-            setHomeState({...homeState, searchTerm: '--'})
-        }
-    }, [confirmationOpen])
-
-    useEffect(() => {
-        updatePlayerData(id)
-    }, [id])
-
     // Render
     return (
         <>
@@ -135,6 +118,7 @@ const PlayerCard = ({
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                 }}
+                                id="card-actions"
                             >
                                 <IconButton onClick={handleEdit}>
                                     <EditIcon

@@ -4,9 +4,6 @@ import {
     MenuItem,
     Select,
     TextField,
-    Card,
-    CardActionArea,
-    CardContent,
     Snackbar,
     Typography,
     CircularProgress,
@@ -27,9 +24,9 @@ const Home = () => {
         order: 'DESC',
         searchTerm: '--',
         toggleCreate: false,
-        id: 20801,
         cardLoading: true,
     })
+
     const [formOpen, setFormOpen] = useState(false)
     const [toasterOpen, setToasterOpen] = useState({
         success: false,
@@ -57,11 +54,6 @@ const Home = () => {
     const handleCreate = () => {
         setFormOpen(true)
         setHomeState({...homeState, toggleCreate: !homeState.toggleCreate})
-    }
-
-    const handleSelectCard = (id) => {
-        console.log(id)
-        setHomeState({...homeState, id: id})
     }
 
     const handleToasterClose = () => {
@@ -185,45 +177,16 @@ const Home = () => {
                     </Button>
                 </div>
             </nav>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}
-            >
-                <Player
-                    id={homeState.id}
-                    homeState={homeState}
-                    setHomeState={setHomeState}
-                    setToasterOpen={setToasterOpen}
-                    toasterOpen={toasterOpen}
-                />
-            </div>
             <div className="player-cards">
                 {homeState.data.length > 0 ? (
                     homeState.data.map((player, idx) => (
-                        <div key={player.player_id}>
-                            <Card
-                                id="card-list-item"
-                                onClick={() =>
-                                    handleSelectCard(player.player_id)
-                                }
-                            >
-                                <CardActionArea sx={{padding: '10px'}}>
-                                    <CardContent>
-                                        <Typography
-                                            variant="h4"
-                                            sx={{marginBottom: '5px'}}
-                                        >
-                                            {player.name}
-                                        </Typography>
-                                        <Typography variant="subtitle1">
-                                            {player.team}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </div>
+                        <Player
+                            id={player.player_id}
+                            playerData={player}
+                            setToasterOpen={setToasterOpen}
+                            toasterOpen={toasterOpen}
+                            key={idx}
+                        />
                     ))
                 ) : (
                     <div>No players found.</div>
