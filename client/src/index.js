@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './app'
 import {createTheme, ThemeProvider} from '@mui/material'
 
 import './styles/styles.css'
+import Home from './pages/Home'
 
-const theme = createTheme({
+export const theme = createTheme({
     typography: {
         fontFamily: ['Inter', '-apple-system', 'BlinkMacSystemFont'].join(','),
         color: 'white',
@@ -24,7 +24,7 @@ const theme = createTheme({
 ReactDOM.render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            <App />
+            <Home />
         </ThemeProvider>
     </React.StrictMode>,
     document.getElementById('root')

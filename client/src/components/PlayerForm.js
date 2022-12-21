@@ -15,8 +15,6 @@ import {
 import {formFields} from '../constants/formFields'
 
 const PlayerForm = (props) => {
-    console.log(props)
-
     // State
     const [formState, setFormState] = useState({available: false})
 
