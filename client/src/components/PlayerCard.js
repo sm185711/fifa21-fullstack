@@ -66,6 +66,10 @@ const PlayerCard = ({id, playerData, toasterOpen, setToasterOpen}) => {
 
     // Lifecycle
     useEffect(() => {
+        setPlayerState({...playerState, playerData: playerData})
+    }, [playerState, playerData])
+
+    useEffect(() => {
         if (!formOpen) {
             updatePlayerData(id)
         }

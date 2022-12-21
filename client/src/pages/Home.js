@@ -13,6 +13,7 @@ import React, {useEffect, useState} from 'react'
 import apis from '../api'
 import PlayerForm from '../components/PlayerForm'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
+import SearchIcon from '@mui/icons-material/Search'
 import Player from '../components/PlayerCard'
 
 const Home = () => {
@@ -67,15 +68,20 @@ const Home = () => {
             homeState.order,
             homeState.searchTerm
         ).then((response) => {
-            setTimeout(
-                () =>
-                    setHomeState({
-                        ...homeState,
-                        data: response.data,
-                        searchLoading: false,
-                    }),
-                1000
-            )
+            // setTimeout(
+            //     () =>
+            //         setHomeState({
+            //             ...homeState,
+            //             data: response.data,
+            //             searchLoading: false,
+            //         }),
+            //     1000
+            // )
+            setHomeState({
+                ...homeState,
+                data: response.data,
+                searchLoading: false,
+            })
         })
     }
 
@@ -119,6 +125,11 @@ const Home = () => {
                         },
                     }}
                     InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        ),
                         endAdornment: (
                             <InputAdornment position="end">
                                 {homeState.searchLoading ? (
