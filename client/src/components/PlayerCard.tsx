@@ -14,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import ConfirmationDialog from './ConfirmationDialog'
 import { formFields } from '../constants/formFields'
 
-const PlayerCard = () => {
+const PlayerCard = (props) => {
 	const [loading, setLoading] = useState(false)
 	const [editMode, setEditMode] = useState(false)
 	const [confirmationOpen, setConfirmationOpen] = useState(false)
@@ -45,16 +45,18 @@ const PlayerCard = () => {
 								variant='h4'
 								sx={{ margin: '20px' }}
 							>
-								Cristiano Ronaldo
+								{props.data.name}
 							</Typography>
 							<ul>
-								{formFields.map((field) => {
+								{formFields.map((field, idx) => {
 									if (field.id !== 'name') {
 										return (
-											<li>
+											<li key={idx}>
 												<Typography variant='body1'>
 													{`${field.label}: `}
-													<strong>07</strong>
+													<strong>
+														{props.data[field.id]}
+													</strong>
 												</Typography>
 											</li>
 										)

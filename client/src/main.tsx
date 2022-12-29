@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { createTheme, ThemeProvider } from '@mui/material'
 import App from './App'
 import './index.css'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 export const theme = createTheme({
 	typography: {
@@ -22,8 +24,10 @@ export const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
-		<ThemeProvider theme={theme}>
-			<App />
-		</ThemeProvider>
+		<Provider store={store}>
+			<ThemeProvider theme={theme}>
+				<App />
+			</ThemeProvider>
+		</Provider>
 	</React.StrictMode>
 )

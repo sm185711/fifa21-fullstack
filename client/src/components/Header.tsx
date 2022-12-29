@@ -10,9 +10,16 @@ import {
 } from '@mui/material'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import SearchIcon from '@mui/icons-material/Search'
+import { useSelector, useDispatch } from 'react-redux'
+import { changeMetric, changeOrder, changeSearch } from '../redux/querySlice'
 
 const Header = () => {
 	const [searchLoading, setSearchLoading] = useState(false)
+
+	const searchTerm = useSelector((state) => state.query.search)
+	const metric = useSelector((state) => state.query.metric)
+	const order = useSelector((state) => state.query.order)
+	const dispatch = useDispatch()
 
 	return (
 		<nav>
@@ -23,7 +30,7 @@ const Header = () => {
 				<img
 					className='logo'
 					alt='FIFA 21 Logo'
-					src='logo.png'
+					src='./../src/assets/logo.png'
 				/>
 				<Typography
 					className='brand'
@@ -37,6 +44,10 @@ const Header = () => {
 				id='search'
 				variant='outlined'
 				placeholder='Search'
+				value={searchTerm}
+				onChange={(e) => {
+					dispatch(changeSearch(e.target.value))
+				}}
 				size='small'
 				sx={{
 					'& .MuiInputBase-root': {
@@ -79,6 +90,10 @@ const Header = () => {
 					id='metric'
 					labelId='metric'
 					placeholder='Metric'
+					value={metric}
+					onChange={(e) => {
+						dispatch(changeMetric(e.target.value))
+					}}
 					className='select-dropdown'
 				>
 					<MenuItem value='overall'>Overall</MenuItem>
@@ -90,6 +105,10 @@ const Header = () => {
 					id='order'
 					labelId='order'
 					placeholder='Order'
+					value={order}
+					onChange={(e) => {
+						dispatch(changeOrder(e.target.value))
+					}}
 					className='select-dropdown'
 				>
 					<MenuItem value='DESC'>Descending</MenuItem>
