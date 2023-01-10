@@ -1,6 +1,6 @@
-import Header from '../components/Header'
-import Toaster from '../components/Toaster'
-import Cards from '../components/Cards'
+import Header from '../components/layout/Header'
+import Toaster from '../components/ui/Toaster'
+import Cards from '../components/elements/Cards'
 
 const Home = () => {
 	// Render

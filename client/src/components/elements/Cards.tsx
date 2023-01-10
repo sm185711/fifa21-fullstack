@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import apis from '../api'
-import PlayerCard from './PlayerCard'
+import apis from '../../api'
+import PlayerCard from '../ui/PlayerCard'
 import { useSelector } from 'react-redux'
 
 const Cards = () => {
@@ -11,7 +11,7 @@ const Cards = () => {
 	const order = useSelector((state) => state.query.order)
 
 	const fetchPlayers = () => {
-		apis.getPlayers(metric, order, searchTerm).then((response) => {
+		apis.getPlayers(metric, order, searchTerm, {}).then((response) => {
 			setRecords(response.data)
 		})
 	}

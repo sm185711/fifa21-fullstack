@@ -11,14 +11,17 @@ import {
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import SearchIcon from '@mui/icons-material/Search'
 import { useSelector, useDispatch } from 'react-redux'
-import { changeMetric, changeOrder, changeSearch } from '../redux/querySlice'
+import { changeMetric, changeOrder, changeSearch } from '../../redux/querySlice'
+import { StateInterface } from '../../redux/state'
 
 const Header = () => {
 	const [searchLoading, setSearchLoading] = useState(false)
 
-	const searchTerm = useSelector((state) => state.query.search)
-	const metric = useSelector((state) => state.query.metric)
-	const order = useSelector((state) => state.query.order)
+	const searchTerm = useSelector(
+		(state: StateInterface) => state.query.search
+	)
+	const metric = useSelector((state: StateInterface) => state.query.metric)
+	const order = useSelector((state: StateInterface) => state.query.order)
 	const dispatch = useDispatch()
 
 	return (

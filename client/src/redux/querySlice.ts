@@ -22,4 +22,10 @@ export const querySlice = createSlice({
 
 export const { changeMetric, changeOrder, changeSearch } = querySlice.actions
 
+export type queryType = {
+	search: string
+	metric: string
+	order: string
+}
+
 export default querySlice.reducer

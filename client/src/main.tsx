@@ -9,10 +9,9 @@ import store from './redux/store'
 export const theme = createTheme({
 	typography: {
 		fontFamily: ['Inter', '-apple-system', 'BlinkMacSystemFont'].join(','),
-		color: 'white',
 	},
 	palette: {
-		type: 'light',
+		mode: 'light',
 		primary: {
 			main: '#209E2F',
 		},

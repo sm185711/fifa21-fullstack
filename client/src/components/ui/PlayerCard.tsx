@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import PlayerForm from './PlayerForm'
-import apis from '../api'
+import PlayerForm from '../elements/PlayerForm'
+import apis from '../../api'
 import {
 	Card,
 	CardActions,
@@ -12,9 +12,9 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import ConfirmationDialog from './ConfirmationDialog'
-import { formFields } from '../constants/formFields'
+import { formFields } from '../../constants/formFields'
 
-const PlayerCard = (props) => {
+const PlayerCard = (props: any) => {
 	const [loading, setLoading] = useState(false)
 	const [editMode, setEditMode] = useState(false)
 	const [confirmationOpen, setConfirmationOpen] = useState(false)
@@ -23,7 +23,6 @@ const PlayerCard = (props) => {
 	return (
 		<>
 			<Card
-				variant='sm'
 				id='card-main'
 				raised
 			>
@@ -71,18 +70,12 @@ const PlayerCard = (props) => {
 								id='card-actions'
 							>
 								<IconButton>
-									<EditIcon
-										variant='outlined'
-										className='button'
-									/>
+									<EditIcon className='button' />
 								</IconButton>
 
 								{editMode ? <PlayerForm /> : null}
 								<IconButton>
-									<DeleteIcon
-										variant='outlined'
-										className='button'
-									/>
+									<DeleteIcon className='button' />
 								</IconButton>
 							</CardActions>
 						</>
